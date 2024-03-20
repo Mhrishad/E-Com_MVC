@@ -5,23 +5,21 @@ namespace E_Com.Data
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<Category> Category {  get; set; }
-
-        private static readonly string[] separator = new String[] { @"bin\" };
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                var env_name = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-                string projectPath = AppDomain.CurrentDomain.BaseDirectory.Split(separator, StringSplitOptions.None)[0];
-                IConfigurationRoot configuration = new ConfigurationBuilder()
-                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                 .AddJsonFile($"appsettings.{env_name}.json")
-                 .Build();
-                var config = configuration.GetConnectionString("DefaultConnection");
-                optionsBuilder.UseMySql(config, ServerVersion.AutoDetect(config));
-            }
+
         }
+
+        public DbSet<Category> Categories { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Category>().HasData(
+                new Category { Id = 1, Name = "Phone", Description = "All kinds of phone here", DisplayOrder = 1 },
+                new Category { Id = 2, Name = "Laptop", Description = "All kinds of Laptop here", DisplayOrder = 2 },
+                new Category { Id = 3, Name = "Gadgets", Description = "All kinds of Gadgets here", DisplayOrder = 3 }
+                );
+        }
+
     }
 }
