@@ -19,17 +19,15 @@
         <tr>
             <th>Name</th>
             <th>Description</th>
-            <th>Display Order</th>
         </tr>
     </thead>
 
     <tbody>
-        @foreach (var obj in Model.OrderByDescending(u => u.DisplayOrder))
+        @foreach (var obj in Model)
         {
             <tr>
                 <td>@obj.Name</td>
                 <td>@obj.Description</td>
-                <td>@obj.DisplayOrder</td>
             </tr>
         }
     </tbody>

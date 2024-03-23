@@ -10,6 +10,4 @@ public partial class Category
     public string? Name { get; set; }
 
     public string? Description { get; set; }
-
-    public int? DisplayOrder { get; set; }
 }
